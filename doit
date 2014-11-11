@@ -6,13 +6,14 @@ use Getopt::Long;
 my $usage = "Usage: $0 [--debug] [-c oz-configuration-file] file.tdl\n";
 
 my $cfgfile = "/etc/oz/oz.cfg";
-my $debug = my $verbose = my $dryrun = 0;
+my $debug = my $verbose = my $dryrun = my $properties = 0;
 my %opts = (debug   => \$debug,
 	    dryrun  => \$dryrun,
 	    verbose => \$verbose);
 my $rc = Getopt::Long::GetOptions(\%opts,
 				  "debug","dryrun","verbose",
-				  "c=s" => \$cfgfile,
+                                  "properties=s" => \$properties,
+				  "c=s"          => \$cfgfile,
     );
 if (not $rc){
     print STDERR "Could not parse options\n";
@@ -149,6 +150,15 @@ print STDOUT "[INFO]        guestfish --rw -i -a $outfile\n\n";
 my %property = (hypervisor_type => $hypervisor_type,
 		os              => $landb_os,
     );
+
+# Add more properties from parameters sent
+if ($properties){
+    my %values = split /[=,]/, $properties;
+    foreach my $k (keys %values) {
+        $property{$k} = $values{$k};
+    }
+}
+
 my $imagename = $os;
 if (not open(TDL,"$os.tdl")){
     print STDERR "[ERROR] Cannot open \"$os.tdl\" for reading: $!\n";
