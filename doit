@@ -3,7 +3,7 @@ use strict;
 use diagnostics;
 use Getopt::Long;
 
-my $usage = "Usage: $0 [--debug] [-c oz-configuration-file] file.tdl\n";
+my $usage = "Usage: $0 [--debug] [-c oz-configuration-file] [--properties k1=v1,kn=vn] file.tdl\n";
 
 my $cfgfile = "/etc/oz/oz.cfg";
 my $debug = my $verbose = my $dryrun = my $properties = 0;
