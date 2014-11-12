@@ -21,7 +21,8 @@ if (not $rc){
 }
 $verbose = 1 if $debug;
 
-if (scalar(@ARGV) != 1){
+# We need , at least, 1 parameter (file.tdl)
+if (scalar(@ARGV) < 1){
     print $usage;
     exit 1;
 }
