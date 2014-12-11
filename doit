@@ -3,17 +3,18 @@ use strict;
 use diagnostics;
 use Getopt::Long;
 
-my $usage = "Usage: $0 [--debug] [-c oz-configuration-file] [--properties k1=v1,kn=vn] file.tdl\n";
+my $usage = "Usage: $0 [--debug] [-c oz-configuration-file] [--property key=value] file.tdl\n";
 
 my $cfgfile = "/etc/oz/oz.cfg";
-my $debug = my $verbose = my $dryrun = my $properties = 0;
+my $debug = my $verbose = my $dryrun = 0;
+my @property_in;
 my %opts = (debug   => \$debug,
 	    dryrun  => \$dryrun,
 	    verbose => \$verbose);
 my $rc = Getopt::Long::GetOptions(\%opts,
 				  "debug","dryrun","verbose",
-                                  "properties=s" => \$properties,
-				  "c=s"          => \$cfgfile,
+                                  "property=s" => \@property_in,
+				  "c=s"        => \$cfgfile,
     );
 if (not $rc){
     print STDERR "Could not parse options\n";
@@ -152,11 +153,13 @@ my %property = (hypervisor_type => $hypervisor_type,
 		os              => $landb_os,
     );
 
-# Add more properties from parameters sent
-if ($properties){
-    my %values = split /[=,]/, $properties;
-    foreach my $k (keys %values) {
-        $property{$k} = $values{$k};
+# Add more properties from parameters sent (--property key1=value1 --property key2=value2 ...)
+if (@property_in){
+    foreach (@property_in) {
+        my %values = split /[=,]/, $_;
+        foreach my $k (keys %values) {
+            $property{$k} = $values{$k};
+        }
     }
 }
 
