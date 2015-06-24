@@ -10,7 +10,6 @@
   </install>
  </os>
  <packages>
-  <package name='heat-cfntools'/>
   <package name='virt-what'/>
   <package name='tuned'/>
  </packages>
@@ -31,7 +30,9 @@ exec >>/root/customize.log 2>&amp;1
 #
 # Install cloud-init and friends
 #
-/usr/bin/yum install cloud-init -y --enablerepo=slc6-rhcommon
+wget http://linux.web.cern.ch/linux/rhel/repofiles/rhel6.repo -O /etc/yum.repos.d/rhel6.repo
+
+/usr/bin/yum install -y cloud-init
 
 if [ -e /etc/cloud/cloud.cfg ]; then
     /bin/sed -i 's|cloud-user|root|' /etc/cloud/cloud.cfg
