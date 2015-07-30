@@ -4,7 +4,7 @@
  <os>
   <name>SLC-6</name>
   <version>6</version>
-  <arch>i386</arch>
+  <arch>i686</arch>
   <install type='url'>
     <url>http://linuxsoft.cern.ch/cern/slc66/i386/</url>
   </install>

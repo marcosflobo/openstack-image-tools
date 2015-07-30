@@ -4,7 +4,7 @@
  <os>
   <name>SLC-5</name>
   <version>U11</version>
-  <arch>i386</arch>
+  <arch>i686</arch>
   <install type='url'>
     <url>http://linuxsoft.cern.ch/cern/slc5X/i386/</url>
   </install>
